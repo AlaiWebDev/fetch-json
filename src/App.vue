@@ -16,26 +16,31 @@
         </tr>
       </tbody>
     </table>
-    <input type="button" v-on:click="chargerComposant = !chargerComposant" value="Charger composant">
+    <!-- <input type="button" v-on:click="chargerComposant = !chargerComposant" :value="chargerComposant ? textButton[1] : textButton[0]"> -->
+    <input type="button" v-on:click="chargerComposant = !chargerComposant" :value="chargerComposant ? 'Décharger composant' : 'Charger composant'">
   </div>
-  <HelloWorld v-if="chargerComposant"/>
+  <!-- <transition> -->
+    <MyComponent v-if="chargerComposant"/>
+  <!-- </transition> -->
+  
 </template>
 
 <script>
-import HelloWorld  from "@/components/HelloWorld.vue";
+import MyComponent  from "@/components/MyComponent.vue";
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    MyComponent
   },
   data : function () {
     return {
       allUtilisateurs: [],
       columns: [],
       chargerComposant: false,
+      // textButton: ["Charger composant", "Décharger composant"]
     }
   },
-  mounted() {
+  beforeMount () {
     const urlJson = "https://api.jsonbin.io/v3/b/6286a436402a5b38020398f6";
     const apiJsonKey = "$2b$10$J2YCvlT8PriRCj51g2q3lu8XaUOhNVlbPngCzk8Pzc/gKj4epPSxW";
     const headers = {
@@ -76,4 +81,13 @@ th, td {
 input[type="button"]{
   margin: 1rem;
 }
+/* .v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+} */
 </style>

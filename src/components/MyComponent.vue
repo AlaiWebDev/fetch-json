@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>Composant HelloWorld chargé</h1>
+    <h1>Composant MyComponent chargé</h1>
   </div>
 </template>
 

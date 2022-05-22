@@ -1,4 +1,5 @@
 <template>
+<h1>Application qui fetch une ressource en ligne</h1>
   <div class="container">
     <table>
       <thead>
@@ -15,19 +16,26 @@
         </tr>
       </tbody>
     </table>
+    <input type="button" v-on:click="chargerComposant = !chargerComposant" value="Charger composant">
   </div>
+  <HelloWorld v-if="chargerComposant"/>
 </template>
 
 <script>
+import HelloWorld  from "@/components/HelloWorld.vue";
 export default {
   name: 'App',
+  components: {
+    HelloWorld
+  },
   data : function () {
     return {
       allUtilisateurs: [],
-      columns: []
+      columns: [],
+      chargerComposant: false,
     }
   },
-  created() {
+  mounted() {
     const urlJson = "https://api.jsonbin.io/v3/b/6286a436402a5b38020398f6";
     const apiJsonKey = "$2b$10$J2YCvlT8PriRCj51g2q3lu8XaUOhNVlbPngCzk8Pzc/gKj4epPSxW";
     const headers = {
@@ -64,5 +72,8 @@ th, td {
   text-align: center;
   padding: 1rem;
   border: 1px solid black;
+}
+input[type="button"]{
+  margin: 1rem;
 }
 </style>

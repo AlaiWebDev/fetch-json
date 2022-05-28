@@ -1,7 +1,9 @@
 <template>
   <div class="hello">
-    <h1>Composant MyComponent chargé</h1>
-    <button v-on:click="this.$emit('bonjourParent', bonjourParent)">Envoyer message</button>
+    <h1>Composant enfant 'MyComponent' chargé</h1>
+    <!-- <h2>Le mail de l'admin est {{ adminMail }}</h2> Contenu récupéré via le Store-->
+    <button v-on:click="this.$emit('bonjourParent', bonjourParent)">Envoyer message au parent</button>
+    <p>{{ messageFromParent }}</p>
   </div>
   <p>{{ messagefromParent }}</p>
 </template>
@@ -9,12 +11,17 @@
 <script>
 export default {
   name: 'MyComponent',
+    props: ["messageFromParent"],
   data: function () {
     return {
+  //     adminMail: "",
       bonjourParent: "Coucou de l'enfant à son parent"
     }
   },
-  props: ["messagefromParent"],
+  // created() {
+  // On récupère le contenu du state 'mailAdminFromVuex' du Store
+  //   this.adminMail = this.$store.state.mailAdminFromVuex;
+  // }
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -1,6 +1,6 @@
 <template>
-<h1>Application qui fetch une ressource en ligne</h1>
   <div class="container">
+    <h1>Application qui fetch une ressource en ligne</h1>
     <table>
       <thead>
         <tr >
@@ -17,12 +17,13 @@
       </tbody>
     </table>
     <!-- <input type="button" v-on:click="chargerComposant = !chargerComposant" :value="chargerComposant ? textButton[1] : textButton[0]"> -->
-    <input type="button" @click="chargerComposant = !chargerComposant" :value="chargerComposant ? 'Décharger composant' : 'Charger composant'">
+    <input type="button" @click="chargerComposant = !chargerComposant" :value="chargerComposant ? 'Décharger MyComponent' : 'Charger MyComponent'">
     <p>{{ messageFromEnfant }}</p>
+    <!-- <div>Adresse e-mail de l'administrateur : {{ mailAdmin }}</div> -->
+    <!-- <transition> -->
+      <MyComponent v-if="chargerComposant" @bonjourParent="messageEnfant" :messageFromParent="messageToEnfant"/>
+    <!-- </transition> -->
   </div>
-  <!-- <transition> -->
-    <MyComponent @bonjourParent="messageEnfant" v-if="chargerComposant" :messageFromParent="messageToEnfant"/>
-  <!-- </transition> -->
   
 </template>
 
@@ -38,9 +39,9 @@ export default {
       allUtilisateurs: [],
       columns: [],
       chargerComposant: false,
+      messageToEnfant: "Coucou du parent à son enfant",
       messageFromEnfant: "",
-      messageToEnfant: "Coucou du parent à son enfant"
-      // textButton: ["Charger composant", "Décharger composant"]
+      // textButton: ["Charger MyComponent", "Décharger MyComponent"]
     }
   },
   beforeMount () {
@@ -55,6 +56,8 @@ export default {
     .then(data => {
       this.columns = Object.keys(data.record.categories.utilisateurs[0]);
       this.allUtilisateurs = data.record.categories.utilisateurs;
+      // On met à jour le state 'setMailAdminFromVuex'
+      // this.$store.commit("setMailAdminFromVuex", this.allUtilisateurs[0].mail);
       }
     );
   },
@@ -63,6 +66,12 @@ export default {
       this.messageFromEnfant = event;
     }
   }
+  // computed: {
+  // On récupère le contenu du state 'mailAdminFromVuex' du Store
+  //   mailAdmin() {
+  //     return this.$store.state.mailAdminFromVuex
+  //   }
+  // }
 }
 </script>
 

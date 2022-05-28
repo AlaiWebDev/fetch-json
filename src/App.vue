@@ -17,10 +17,11 @@
       </tbody>
     </table>
     <!-- <input type="button" v-on:click="chargerComposant = !chargerComposant" :value="chargerComposant ? textButton[1] : textButton[0]"> -->
-    <input type="button" v-on:click="chargerComposant = !chargerComposant" :value="chargerComposant ? 'Décharger composant' : 'Charger composant'">
+    <input type="button" @click="chargerComposant = !chargerComposant" :value="chargerComposant ? 'Décharger composant' : 'Charger composant'">
+    <p>{{ messageFromEnfant }}</p>
   </div>
   <!-- <transition> -->
-    <MyComponent v-if="chargerComposant"/>
+    <MyComponent @bonjourParent="messageEnfant" v-if="chargerComposant" :messageFromParent="messageToEnfant"/>
   <!-- </transition> -->
   
 </template>
@@ -37,6 +38,8 @@ export default {
       allUtilisateurs: [],
       columns: [],
       chargerComposant: false,
+      messageFromEnfant: "",
+      messageToEnfant: "Coucou du parent à son enfant"
       // textButton: ["Charger composant", "Décharger composant"]
     }
   },
@@ -46,7 +49,7 @@ export default {
     const headers = {
       "Content-Type": "application/json",
       "X-Master-Key": apiJsonKey
-     };
+      };
     fetch(urlJson, { headers })
     .then(response => response.json())
     .then(data => {
@@ -54,6 +57,11 @@ export default {
       this.allUtilisateurs = data.record.categories.utilisateurs;
       }
     );
+  },
+  methods: {
+    messageEnfant (event) {
+      this.messageFromEnfant = event;
+    }
   }
 }
 </script>
@@ -61,8 +69,6 @@ export default {
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;

@@ -1,6 +1,6 @@
 <template>
-<h1>Application qui fetch une ressource en ligne</h1>
   <div class="container">
+    <h1>Application qui fetch une ressource en ligne</h1>
     <table>
       <thead>
         <tr >
@@ -8,7 +8,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(utilisateur, index) in allUtilisateurs" :key="index">
+        <tr v-for="utilisateur in allUtilisateurs" :key="utilisateur.id">
           <td>{{ utilisateur.id }}</td>
           <td>{{ utilisateur.pseudo }}</td>
           <td>{{ utilisateur.motdepasse }}</td>
@@ -17,11 +17,13 @@
       </tbody>
     </table>
     <!-- <input type="button" v-on:click="chargerComposant = !chargerComposant" :value="chargerComposant ? textButton[1] : textButton[0]"> -->
-    <input type="button" v-on:click="chargerComposant = !chargerComposant" :value="chargerComposant ? 'Décharger composant' : 'Charger composant'">
+    <input type="button" @click="chargerComposant = !chargerComposant" :value="chargerComposant ? 'Décharger MyComponent' : 'Charger MyComponent'">
+    <p>{{ messageFromEnfant }}</p>
+    <!-- <div>Adresse e-mail de l'administrateur : {{ mailAdmin }}</div> -->
+    <!-- <transition> -->
+      <MyComponent v-if="chargerComposant" @bonjourParent="messageEnfant" :messageFromParent="messageToEnfant"/>
+    <!-- </transition> -->
   </div>
-  <!-- <transition> -->
-    <MyComponent v-if="chargerComposant"/>
-  <!-- </transition> -->
   
 </template>
 
@@ -37,7 +39,9 @@ export default {
       allUtilisateurs: [],
       columns: [],
       chargerComposant: false,
-      // textButton: ["Charger composant", "Décharger composant"]
+      messageToEnfant: "Coucou du parent à son enfant",
+      messageFromEnfant: "",
+      // textButton: ["Charger MyComponent", "Décharger MyComponent"]
     }
   },
   beforeMount () {
@@ -52,9 +56,22 @@ export default {
     .then(data => {
       this.columns = Object.keys(data.record.categories.utilisateurs[0]);
       this.allUtilisateurs = data.record.categories.utilisateurs;
+      // On met à jour le state 'setMailAdminFromVuex'
+      // this.$store.commit("setMailAdminFromVuex", this.allUtilisateurs[0].mail);
       }
     );
+  },
+  methods: {
+    messageEnfant (event) {
+      this.messageFromEnfant = event;
+    }
   }
+  // computed: {
+  // On récupère le contenu du state 'mailAdminFromVuex' du Store
+  //   mailAdmin() {
+  //     return this.$store.state.mailAdminFromVuex
+  //   }
+  // }
 }
 </script>
 

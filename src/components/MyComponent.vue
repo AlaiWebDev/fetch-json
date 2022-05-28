@@ -5,6 +5,7 @@
     <button v-on:click="this.$emit('bonjourParent', bonjourParent)">Envoyer message au parent</button>
     <p>{{ messageFromParent }}</p>
   </div>
+  <p>{{ messagefromParent }}</p>
 </template>
 
 <script>
